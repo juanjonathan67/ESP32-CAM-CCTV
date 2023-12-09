@@ -101,7 +101,7 @@ void sendMessage(String message){
     LOG_INF("Whatsapp message sent successfully");
   }
   else{
-    LOG_ERR("Error sending the message");
+    LOG_ERR("Error sending the message, HTTP response code: %d", httpResponseCode);
     LOG_DBG("HTTP response code: %d", httpResponseCode);
   }
 
@@ -398,7 +398,14 @@ static boolean processFrame() {
     
     if (isCapturing && !wasCapturing) {
       // movement has occurred, start recording, send to whatsapp, and switch on lamp if night time
-      if (WiFi.status() == WL_CONNECTED) sendMessage(String("Movement detected on your cctv! Check via http://" + WiFi.localIP().toString()));
+      if (WiFi.status() == WL_CONNECTED){
+        time_t currEpoch = getEpoch();
+        char timeFormat[20];
+        strftime(timeFormat, sizeof(timeFormat), "%d/%m/%Y %H:%M:%S", localtime(&currEpoch));
+        String message = String("Movement detected on your cctv at " + timeFormat + " , Check via http://" + WiFi.localIP().toString());
+        sendMessage(message);
+      }
+       
       stopPlaying(); // terminate any playback
       stopPlayback = true; // stop any subsequent playback
       LOG_ALT("Capture started by %s%s", captureMotion ? "Motion " : "", forceRecord ? "Button" : "");

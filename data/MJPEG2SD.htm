@@ -914,22 +914,6 @@
                       <label for="quality">Quality</label>
                       <input title="Set the recording quality" type="range" id="quality" min="4" max="63" value="10">
                   </div>                          
-                  <div class="input-group" id="micGain-group">
-                    <label for="micGain">Microphone Gain</label>
-                    <input title="Set microphone gain" type="range" id="micGain" min="0" max="10" value="0">
-                  </div>
-                  <div class="input-group" id="CamTilt-group">
-                    <label for="camTilt">Camera Tilt</label>
-                    <input title="Set camera tilt angle" type="range" id="camTilt" min="0" max="180" value="90">
-                  </div>
-                  <div class="input-group" id="CamPan-group">
-                    <label for="camPan">Camera Pan</label>
-                    <input title="Set camera pan angle" type="range" id="camPan" min="0" max="180" value="90">
-                  </div>
-                  <div class="input-group" id="lamp-group">
-                    <label for="lamp">Lamp</label>
-                     <input title="Control onboard lamp led brightness" type="range" id="lampLevel" min="0" max="15" value="0">
-                  </div>
                 </div>
               </nav>
               <nav class="menu panel" id="picture-settings">                                                   
@@ -1471,7 +1455,7 @@
         <div>
           <svg>
             <rect/>
-            <text class="local midText" id="wifi">Wifi</text>
+            <text class="local midText" id="wifi">Connection</text>
           </svg>
         </div>
         <div>
@@ -1486,13 +1470,7 @@
             <text class="local midText" id="peripherals">Peripherals</text>
           </svg>
         </div>
-        <div>
-          <svg>
-            <rect/>
-            <text class="local midText" id="other">Other</text>
-          </svg>
-        </div>
-        <div id="RCconfigBtn" class="hidden">
+        <div id="RCconfigBtn">
           <svg>
             <rect/>
             <text class="local midText" id="RCconfig">RC Config</text>
