@@ -29,6 +29,7 @@
 #include <HTTPClient.h>
 #include <WiFiClient.h>
 #include <WiFiClientSecure.h>
+#include <UrlEncode.h>
 #include <esp_http_server.h>
 #include <esp_https_server.h>
 
@@ -63,6 +64,7 @@
 #define ONEMEG (1024 * 1024)
 #define MAX_PWD_LEN 64
 #define MAX_HOST_LEN 32
+#define MAX_WA_LEN 20
 #define MAX_IP_LEN 16
 #define BOUNDARY_VAL "123456789000000000000987654321"
 #define SF_LEN 100
@@ -183,6 +185,8 @@ extern char AP_gw[];
 extern char hostName[]; //Host name for ddns
 extern char ST_SSID[]; //Router ssid
 extern char ST_Pass[]; //Router passd
+extern char WA_Num[];
+extern char API_Key[];
 extern bool useHttps;
 extern bool useSecure;
 extern bool useFtps;

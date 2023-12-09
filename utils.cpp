@@ -28,6 +28,8 @@ char startupFailure[SF_LEN] = {0};
 char hostName[MAX_HOST_LEN] = ""; // Default Host name
 char ST_SSID[MAX_HOST_LEN]  = ""; //Default router ssid
 char ST_Pass[MAX_PWD_LEN] = ""; //Default router passd
+char WA_Num[MAX_WA_LEN] = ""; // WA number
+char API_Key[MAX_WA_LEN] = ""; // Bot API Key
 
 // leave following blank for dhcp
 char ST_ip[MAX_IP_LEN]  = ""; // Static IP

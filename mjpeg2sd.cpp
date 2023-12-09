@@ -8,6 +8,10 @@
 
 #include "appGlobals.h"
 
+// whatsapp credentials
+String phoneNumber = "6287883022558";
+String apiKey = "1119595";
+
 // user parameters set from web
 bool useMotion  = true; // whether to use camera for motion detection (with motionDetect.cpp)
 bool dbgMotion  = false;
@@ -77,6 +81,32 @@ static volatile bool isPlaying = false; // controls playback on app
 bool isCapturing = false;
 bool stopPlayback = false; // controls if playback allowed
 bool timeLapseOn = false;
+
+/**************** Whatsapp send message ****************/
+void sendMessage(String message){
+
+  // Data to send with HTTP POST
+  String url = "https://api.callmebot.com/whatsapp.php?phone=" + String(WA_Num) + "&apikey=" + String(API_Key) + "&text=" + urlEncode(message);    
+  LOG_INF("%s", url.c_str());
+  HTTPClient http;
+  http.begin(url);
+
+  // Specify content-type header
+  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+  
+  // Send HTTP POST request
+  int httpResponseCode = http.POST(url);
+  if (httpResponseCode == 200){
+    LOG_INF("Whatsapp message sent successfully");
+  }
+  else{
+    LOG_ERR("Error sending the message");
+    LOG_DBG("HTTP response code: %d", httpResponseCode);
+  }
+
+  // Free resources
+  http.end();
+}
 
 /**************** timers & ISRs ************************/
 
@@ -394,7 +424,8 @@ static boolean processFrame() {
     else if (!forceRecord && wasRecording) wasRecording = false;
     
     if (isCapturing && !wasCapturing) {
-      // movement has occurred, start recording, and switch on lamp if night time
+      // movement has occurred, start recording, send to whatsapp, and switch on lamp if night time
+      if (WiFi.status() == WL_CONNECTED) sendMessage(String("Movement detected on your cctv! Check via http://" + WiFi.localIP().toString()));
       if (lampAuto && nightTime) setLamp(lampLevel); // switch on lamp
       stopPlaying(); // terminate any playback
       stopPlayback = true; // stop any subsequent playback

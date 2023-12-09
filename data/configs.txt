@@ -1,5 +1,7 @@
 appId~ESP-CAM_MJPEG~99~~na
 ST_SSID~~99~~na
+WA_Num~~99~~na
+API_Key~~99~~na
 ftp_port~21~99~~na
 ftp_server~~99~~na
 ftp_user~~99~~na

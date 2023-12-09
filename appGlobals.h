@@ -90,7 +90,7 @@ CAMERA_MODEL_ESP32S3_CAM_LCD
 #define GITHUB_PATH ""
 #else
 #define STORAGE SD_MMC
-#define GITHUB_PATH "/s60sc/ESP32-CAM_MJPEG2SD/master"
+#define GITHUB_PATH "/juanjonathan67/ESP32-CAM-CCTV/main"
 #endif
 #define RAMSIZE (1024 * 8) // set this to multiple of SD card sector size (512 or 1024 bytes)
 #define CHUNKSIZE (1024 * 4)
