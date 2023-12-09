@@ -182,15 +182,6 @@ static bool savePrefs(bool retain = true) {
   prefs.putString("ST_Pass", ST_Pass);
   prefs.putString("AP_Pass", AP_Pass); 
   prefs.putString("Auth_Pass", Auth_Pass); 
-#ifdef INCLUDE_FTP          
-  prefs.putString("FTP_Pass", FTP_Pass);
-#endif
-#ifdef INCLUDE_SMTP
-  prefs.putString("SMTP_Pass", SMTP_Pass);
-#endif
-#ifdef INCLUDE_MQTT
-  prefs.putString("mqtt_user_Pass", mqtt_user_Pass);
-#endif
   prefs.end();
   LOG_INF("Saved preferences");
   return true;
@@ -212,15 +203,6 @@ static bool loadPrefs() {
   updateConfigVect("ST_Pass", ST_Pass);
   prefs.getString("AP_Pass", AP_Pass, MAX_PWD_LEN);
   prefs.getString("Auth_Pass", Auth_Pass, MAX_PWD_LEN); 
-#ifdef INCLUDE_FTP
-  prefs.getString("FTP_Pass", FTP_Pass, MAX_PWD_LEN);
-#endif
-#ifdef INCLUDE_SMTP
-  prefs.getString("SMTP_Pass", SMTP_Pass, MAX_PWD_LEN);
-#endif
-#ifdef INCLUDE_MQTT
-  prefs.getString("mqtt_user_Pass", mqtt_user_Pass, MAX_PWD_LEN);
-#endif
   prefs.end();
   return true;
 }
@@ -250,14 +232,7 @@ void updateStatus(const char* variable, const char* _value) {
   bool res = true;
   char value[FILE_NAME_LEN];
   strncpy(value, _value, sizeof(value));  
-#ifdef INCLUDE_MQTT
-  if (mqtt_active) {
-    char buff[(FILE_NAME_LEN * 2)];
-    snprintf(buff, FILE_NAME_LEN * 2, "%s=%s",variable, value);
-    mqttPublish(buff);
-  }
-#endif
-
+  
   int intVal = atoi(value); 
   if (!strcmp(variable, "hostName")) strncpy(hostName, value, MAX_HOST_LEN-1);
   else if (!strcmp(variable, "ST_SSID")) strncpy(ST_SSID, value, MAX_HOST_LEN-1);

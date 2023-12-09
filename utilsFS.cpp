@@ -153,9 +153,6 @@ bool checkFreeStorage() {
       char oldestDir[FILE_NAME_LEN];
       getOldestDir(oldestDir);
       LOG_WRN("Deleting oldest folder: %s %s", oldestDir, sdFreeSpaceMode == 2 ? "after uploading" : "");
-#ifdef INCLUDE_FTP 
-      if (sdFreeSpaceMode == 2) ftpFileOrFolder(oldestDir); // Upload and then delete oldest folder
-#endif
       deleteFolderOrFile(oldestDir);
       freeSize = (size_t)((STORAGE.totalBytes() - STORAGE.usedBytes()) / ONEMEG);
     }

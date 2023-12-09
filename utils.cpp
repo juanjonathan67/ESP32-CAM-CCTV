@@ -224,9 +224,6 @@ static void statusCheck() {
   doAppPing();
   if (!timeSynchronized) getLocalNTP();
   if (!dataFilesChecked) dataFilesChecked = checkDataFiles();
-#ifdef INCLUDE_MQTT
-  if (mqtt_active) startMqttClient();
-#endif
 }
 
 static void pingSuccess(esp_ping_handle_t hdl, void *args) {

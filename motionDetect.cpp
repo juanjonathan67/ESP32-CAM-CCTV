@@ -140,10 +140,6 @@ bool checkMotion(camera_fb_t* fb, bool motionStatus) {
     if (!motionStatus && motionCnt >= detectMotionFrames) {
       LOG_DBG("***** Motion - START");
       motionStatus = true; // motion started
-      if (mqtt_active) {
-        sprintf(jsonBuff, "{\"MOTION\":\"ON\",\"TIME\":\"%s\"}",esp_log_system_timestamp());
-        mqttPublish(jsonBuff);
-      }
     } 
     if (dbgMotion)
       // to highlight movement detected in changeMap image, set all gray in region of interest to black
@@ -155,10 +151,6 @@ bool checkMotion(camera_fb_t* fb, bool motionStatus) {
       LOG_DBG("***** Motion - STOP after %u frames", motionCnt);
       motionCnt = 0;
       motionStatus = false; // motion stopped
-      if (mqtt_active) {
-        sprintf(jsonBuff, "{\"MOTION\":\"OFF\",\"TIME\":\"%s\"}", esp_log_system_timestamp());
-        mqttPublish(jsonBuff);
-      }
     }
   }
   if (motionStatus) LOG_DBG("*** Motion - ongoing %u frames", motionCnt);

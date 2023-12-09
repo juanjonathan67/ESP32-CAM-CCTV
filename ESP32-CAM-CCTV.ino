@@ -139,12 +139,7 @@ void setup() {
   else {
     // start rest of services
     startSustainTasks(); 
-    prepSMTP(); 
-    prepPeripherals();
-    prepMic(); 
-    prepTelemetry();
     prepRecording(); 
-    prepTelegram();
     LOG_INF("Camera model %s on board %s ready @ %uMHz", camModel, CAM_BOARD, xclkMhz); 
     checkMemory();
   } 

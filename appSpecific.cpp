@@ -47,8 +47,7 @@ bool updateAppStatus(const char* variable, const char* value) {
   else if (!strcmp(variable, "tlPlaybackFPS")) tlPlaybackFPS = intVal;  
   else if (!strcmp(variable, "nvrStream")) nvrStream = (bool)intVal; 
   else if (!strcmp(variable, "lswitch")) nightSwitch = intVal;
-  else if (!strcmp(variable, "micGain")) micGain = intVal;
-  else if (!strcmp(variable, "upload")) ftpFileOrFolder(value);  
+  // else if (!strcmp(variable, "micGain")) micGain = intVal;
   else if (!strcmp(variable, "whichExt")) whichExt = (bool)intVal;
   else if (!strcmp(variable, "delete")) {
     stopPlayback = true;
@@ -63,69 +62,54 @@ bool updateAppStatus(const char* variable, const char* value) {
   }
   
   // peripherals
-  else if (!strcmp(variable, "useIOextender")) useIOextender = (bool)intVal;
-  else if (!strcmp(variable, "uartTxdPin")) uartTxdPin = intVal;
-  else if (!strcmp(variable, "uartRxdPin")) uartRxdPin = intVal;
-  else if (!strcmp(variable, "pirUse")) pirUse = (bool)intVal;
-  else if (!strcmp(variable, "lampLevel")) {
-    lampLevel = intVal;
-    if (!lampType) setLamp(lampLevel); // manual
-  }
-  else if (!strcmp(variable, "lampUse")) {
-    lampUse = (bool)intVal;
-    if (!lampType) setLamp(lampLevel); // manual
-  }
-  else if (!strcmp(variable, "lampType")) {
-    lampType = intVal;
-    lampAuto = lampNight = false;
-    if (lampType == 1) lampAuto = true;
-    if (!lampType) setLamp(lampLevel); // manual
-    else setLamp(0); 
-  }
-  else if (!strcmp(variable, "servoUse")) servoUse = (bool)intVal;
-  else if (!strcmp(variable, "voltUse")) voltUse = (bool)intVal;
-  else if (!strcmp(variable, "micUse")) micUse = (bool)intVal;
-  else if (!strcmp(variable, "pirPin")) pirPin = intVal;
-  else if (!strcmp(variable, "lampPin")) lampPin = intVal;
-  else if (!strcmp(variable, "servoPanPin")) servoPanPin = intVal;
-  else if (!strcmp(variable, "servoTiltPin")) servoTiltPin = intVal;
-  else if (!strcmp(variable, "ds18b20Pin")) ds18b20Pin = intVal;
-  else if (!strcmp(variable, "voltPin")) voltPin = intVal;
-  else if (!strcmp(variable, "micSckPin")) micSckPin = intVal;
-  else if (!strcmp(variable, "micSWsPin")) micSWsPin = intVal;
-  else if (!strcmp(variable, "micSdPin")) micSdPin = intVal;
-  else if (!strcmp(variable, "servoDelay")) servoDelay = intVal;
-  else if (!strcmp(variable, "servoMinAngle")) servoMinAngle = intVal;
-  else if (!strcmp(variable, "servoMaxAngle")) servoMaxAngle = intVal;
-  else if (!strcmp(variable, "servoMinPulseWidth")) servoMinPulseWidth = intVal;
-  else if (!strcmp(variable, "servoMaxPulseWidth")) servoMaxPulseWidth = intVal;
-  else if (!strcmp(variable, "servoCenter")) servoCenter = intVal;
-  else if (!strcmp(variable, "voltDivider")) voltDivider = intVal;
-  else if (!strcmp(variable, "voltLow")) voltLow = fltVal;
-  else if (!strcmp(variable, "voltInterval")) voltInterval = intVal;
-  else if (!strcmp(variable, "camPan")) setCamPan(intVal);
-  else if (!strcmp(variable, "camTilt")) setCamTilt(intVal);
-  else if (!strcmp(variable, "wakeUse")) wakeUse = (bool)intVal;
-  else if (!strcmp(variable, "wakePin")) wakePin = intVal;
-  else if (!strcmp(variable, "teleUse")) teleUse = (bool)intVal;
-  else if (!strcmp(variable, "teleInterval")) teleInterval = intVal;
-  else if (!strcmp(variable, "RCactive")) RCactive = (bool)intVal;
-  else if (!strcmp(variable, "servoSteerPin")) servoSteerPin = intVal;
-  else if (!strcmp(variable, "motorRevPin")) motorRevPin = intVal;
-  else if (!strcmp(variable, "motorFwdPin")) motorFwdPin = intVal;
-  else if (!strcmp(variable, "lightsRCpin")) lightsRCpin = intVal;
-  else if (!strcmp(variable, "pwmFreq")) pwmFreq = intVal;
-  else if (!strcmp(variable, "RClights")) setLights((bool)intVal);
-  else if (!strcmp(variable, "maxSteerAngle")) maxSteerAngle = intVal;  
-  else if (!strcmp(variable, "maxDutyCycle")) maxDutyCycle = intVal;  
-  else if (!strcmp(variable, "minDutyCycle")) minDutyCycle = intVal;  
-  else if (!strcmp(variable, "allowReverse")) allowReverse = (bool)intVal;   
-  else if (!strcmp(variable, "autoControl")) autoControl = (bool)intVal; 
-  else if (!strcmp(variable, "waitTime")) waitTime = intVal;    
-  else if (!strcmp(variable, "stickUse")) stickUse = (bool)intVal; 
-  else if (!strcmp(variable, "stickXpin")) stickXpin = intVal; 
-  else if (!strcmp(variable, "stickYpin")) stickYpin = intVal; 
-  else if (!strcmp(variable, "stickzPushPin")) stickzPushPin = intVal; 
+  // else if (!strcmp(variable, "useIOextender")) useIOextender = (bool)intVal;
+  // else if (!strcmp(variable, "uartTxdPin")) uartTxdPin = intVal;
+  // else if (!strcmp(variable, "uartRxdPin")) uartRxdPin = intVal;
+  // else if (!strcmp(variable, "pirUse")) pirUse = (bool)intVal;
+  // else if (!strcmp(variable, "servoUse")) servoUse = (bool)intVal;
+  // else if (!strcmp(variable, "voltUse")) voltUse = (bool)intVal;
+  // else if (!strcmp(variable, "micUse")) micUse = (bool)intVal;
+  // else if (!strcmp(variable, "pirPin")) pirPin = intVal;
+  // else if (!strcmp(variable, "lampPin")) lampPin = intVal;
+  // else if (!strcmp(variable, "servoPanPin")) servoPanPin = intVal;
+  // else if (!strcmp(variable, "servoTiltPin")) servoTiltPin = intVal;
+  // else if (!strcmp(variable, "ds18b20Pin")) ds18b20Pin = intVal;
+  // else if (!strcmp(variable, "voltPin")) voltPin = intVal;
+  // else if (!strcmp(variable, "micSckPin")) micSckPin = intVal;
+  // else if (!strcmp(variable, "micSWsPin")) micSWsPin = intVal;
+  // else if (!strcmp(variable, "micSdPin")) micSdPin = intVal;
+  // else if (!strcmp(variable, "servoDelay")) servoDelay = intVal;
+  // else if (!strcmp(variable, "servoMinAngle")) servoMinAngle = intVal;
+  // else if (!strcmp(variable, "servoMaxAngle")) servoMaxAngle = intVal;
+  // else if (!strcmp(variable, "servoMinPulseWidth")) servoMinPulseWidth = intVal;
+  // else if (!strcmp(variable, "servoMaxPulseWidth")) servoMaxPulseWidth = intVal;
+  // else if (!strcmp(variable, "servoCenter")) servoCenter = intVal;
+  // else if (!strcmp(variable, "voltDivider")) voltDivider = intVal;
+  // else if (!strcmp(variable, "voltLow")) voltLow = fltVal;
+  // else if (!strcmp(variable, "voltInterval")) voltInterval = intVal;
+  // else if (!strcmp(variable, "camPan")) setCamPan(intVal);
+  // else if (!strcmp(variable, "camTilt")) setCamTilt(intVal);
+  // else if (!strcmp(variable, "wakeUse")) wakeUse = (bool)intVal;
+  // else if (!strcmp(variable, "wakePin")) wakePin = intVal;
+  // else if (!strcmp(variable, "teleUse")) teleUse = (bool)intVal;
+  // else if (!strcmp(variable, "teleInterval")) teleInterval = intVal;
+  // else if (!strcmp(variable, "RCactive")) RCactive = (bool)intVal;
+  // else if (!strcmp(variable, "servoSteerPin")) servoSteerPin = intVal;
+  // else if (!strcmp(variable, "motorRevPin")) motorRevPin = intVal;
+  // else if (!strcmp(variable, "motorFwdPin")) motorFwdPin = intVal;
+  // else if (!strcmp(variable, "lightsRCpin")) lightsRCpin = intVal;
+  // else if (!strcmp(variable, "pwmFreq")) pwmFreq = intVal;
+  // else if (!strcmp(variable, "RClights")) setLights((bool)intVal);
+  // else if (!strcmp(variable, "maxSteerAngle")) maxSteerAngle = intVal;  
+  // else if (!strcmp(variable, "maxDutyCycle")) maxDutyCycle = intVal;  
+  // else if (!strcmp(variable, "minDutyCycle")) minDutyCycle = intVal;  
+  // else if (!strcmp(variable, "allowReverse")) allowReverse = (bool)intVal;   
+  // else if (!strcmp(variable, "autoControl")) autoControl = (bool)intVal; 
+  // else if (!strcmp(variable, "waitTime")) waitTime = intVal;    
+  // else if (!strcmp(variable, "stickUse")) stickUse = (bool)intVal; 
+  // else if (!strcmp(variable, "stickXpin")) stickXpin = intVal; 
+  // else if (!strcmp(variable, "stickYpin")) stickYpin = intVal; 
+  // else if (!strcmp(variable, "stickzPushPin")) stickzPushPin = intVal; 
 
   // camera settings
   else if (!strcmp(variable, "xclkMhz")) xclkMhz = intVal;
@@ -225,12 +209,6 @@ void appSpecificWsHandler(const char* wsMsg) {
   int wsLen = strlen(wsMsg) - 1;
   int controlVal = atoi(wsMsg + 1); // skip first char
   switch ((char)wsMsg[0]) {
-    case 'M': 
-      motorSpeed(controlVal);
-    break;
-    case 'D': 
-      setSteering(controlVal);
-    break;
     case 'C': 
       // control request
       if (extractKeyVal(wsMsg + 1)) updateStatus(variable, value);
@@ -263,12 +241,6 @@ void buildAppJsonString(bool filter) {
   char* p = jsonBuff + 1;
   p += sprintf(p, "\"llevel\":%u,", lightLevel);
   p += sprintf(p, "\"night\":%s,", nightTime ? "\"Yes\"" : "\"No\"");
-  float aTemp = readTemperature(true);
-  if (aTemp > -127.0) p += sprintf(p, "\"atemp\":\"%0.1f\",", aTemp);
-  else p += sprintf(p, "\"atemp\":\"n/a\",");
-  float currentVoltage = readVoltage();
-  if (currentVoltage < 0) p += sprintf(p, "\"battv\":\"n/a\",");
-  else p += sprintf(p, "\"battv\":\"%0.1fV\",", currentVoltage); 
   if (forcePlayback && !doPlayback) {
     // switch off playback 
     forcePlayback = false;
@@ -276,13 +248,13 @@ void buildAppJsonString(bool filter) {
   }
   p += sprintf(p, "\"showRecord\":%u,", (uint8_t)((isCapturing && doRecording) || forceRecord));
   p += sprintf(p, "\"camModel\":\"%s\",", camModel); 
-  p += sprintf(p, "\"RCactive\":\"%d\",", RCactive); 
-  p += sprintf(p, "\"maxSteerAngle\":\"%d\",", maxSteerAngle); 
-  p += sprintf(p, "\"maxDutyCycle\":\"%d\",",  maxDutyCycle);
-  p += sprintf(p, "\"minDutyCycle\":\"%d\",", minDutyCycle);  
-  p += sprintf(p, "\"allowReverse\":\"%d\",", allowReverse);   
-  p += sprintf(p, "\"autoControl\":\"%d\",", autoControl);
-  p += sprintf(p, "\"waitTime\":\"%d\",", waitTime); 
+  // p += sprintf(p, "\"RCactive\":\"%d\",", RCactive); 
+  // p += sprintf(p, "\"maxSteerAngle\":\"%d\",", maxSteerAngle); 
+  // p += sprintf(p, "\"maxDutyCycle\":\"%d\",",  maxDutyCycle);
+  // p += sprintf(p, "\"minDutyCycle\":\"%d\",", minDutyCycle);  
+  // p += sprintf(p, "\"allowReverse\":\"%d\",", allowReverse);   
+  // p += sprintf(p, "\"autoControl\":\"%d\",", autoControl);
+  // p += sprintf(p, "\"waitTime\":\"%d\",", waitTime); 
   p += sprintf(p, "\"sustainId\":\"%u\",", sustainId); 
     
   // Extend info
@@ -300,8 +272,8 @@ void buildAppJsonString(bool filter) {
     p += sprintf(p, "\"total_bytes\":\"%s\",", fmtSize(SD_MMC.totalBytes()));
   }
   p += sprintf(p, "\"free_psram\":\"%s\",", fmtSize(ESP.getFreePsram()));     
-  p += sprintf(p, "\"progressBar\":%d,", percentLoaded);  
-  if (percentLoaded == 100) percentLoaded = 0;
+  // p += sprintf(p, "\"progressBar\":%d,", percentLoaded);  
+  // if (percentLoaded == 100) percentLoaded = 0;
   //p += sprintf(p, "\"vcc\":\"%i V\",", ESP.getVcc() / 1023.0F; ); 
   *p = 0;
 }
@@ -309,9 +281,7 @@ void buildAppJsonString(bool filter) {
 /******************************************************************/
 
 void externalAlert(const char* subject, const char* message) {
-  // alert any configured external servers
-  if (tgramUse) tgramAlert(subject, message);
-  if (smtpUse) emailAlert(subject, message);
+
 }
 
 bool appDataFiles() {
@@ -343,27 +313,26 @@ void doAppPing() {
     currentStackUsage();
     checkMemory();
   }
-  if (checkAlarm()) {
-    if (tgramUse) doGetExtIP = true; 
-    else getExtIP();
-    if (smtpUse) {
-      emailCount = 0;
-      LOG_INF("Reset daily email allowance");
-    }
-    LOG_INF("Daily rollover");
-  }
-  doIOExtPing();
+  // if (checkAlarm()) {
+  //   if (tgramUse) doGetExtIP = true; 
+  //   else getExtIP();
+  //   if (smtpUse) {
+  //     emailCount = 0;
+  //     LOG_INF("Reset daily email allowance");
+  //   }
+  //   LOG_INF("Daily rollover");
+  // }
   // check for night time actions
-  if (isNight(nightSwitch)) {
-    if (wakeUse && wakePin) {
-     // to use LDR on wake pin, connect it between pin and 3V3
-     // uses internal pulldown resistor as voltage divider
-     // but may need to add external pull down between pin
-     // and GND to alter required light level for wakeup
-     digitalWrite(PWDN_GPIO_NUM, 1); // power down camera
-     goToSleep(wakePin, true);
-    }
-  } 
+  // if (isNight(nightSwitch)) {
+  //   if (wakeUse && wakePin) {
+  //    // to use LDR on wake pin, connect it between pin and 3V3
+  //    // uses internal pulldown resistor as voltage divider
+  //    // but may need to add external pull down between pin
+  //    // and GND to alter required light level for wakeup
+  //    digitalWrite(PWDN_GPIO_NUM, 1); // power down camera
+  //    goToSleep(wakePin, true);
+  //   }
+  // } 
 }
 
 /************** telegram app specific **************/
