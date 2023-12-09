@@ -94,10 +94,6 @@ CAMERA_MODEL_ESP32S3_CAM_LCD
 #endif
 #define RAMSIZE (1024 * 8) // set this to multiple of SD card sector size (512 or 1024 bytes)
 #define CHUNKSIZE (1024 * 4)
-#define INCLUDE_FTP 
-#define INCLUDE_SMTP
-#define INCLUDE_MQTT
-#define INCLUDE_TGRAM
 #define ISCAM // cam specific code in generics
 
 #define IS_IO_EXTENDER false // must be false except for IO_Extender
@@ -241,6 +237,7 @@ extern bool autoUpload;
 extern bool dbgMotion;
 extern bool doPlayback;
 extern bool doRecording; // whether to capture to SD or not
+extern bool finishRecording;
 extern bool forceRecord; // Recording enabled by rec button
 extern bool forcePlayback; // playback enabled by user
 extern uint8_t FPS;

@@ -16,6 +16,7 @@ String apiKey = "1119595";
 bool useMotion  = true; // whether to use camera for motion detection (with motionDetect.cpp)
 bool dbgMotion  = false;
 bool forceRecord = false; // Recording enabled by rec button
+bool finishRecording = false;
 
 // motion detection parameters
 int moveStartChecks = 5; // checks per second for start motion
@@ -151,8 +152,6 @@ static void openAvi() {
   aviFile = STORAGE.open(AVITEMP, FILE_WRITE);
   oTime = millis() - oTime;
   LOG_DBG("File opening time: %ums", oTime);
-  startAudio();
-  startTelemetry();
   // initialisation of counters
   startTime = millis();
   frameCnt = fTimeTot = wTimeTot = dTimeTot = vidSize = 0;
@@ -198,10 +197,8 @@ static void timeLapse(camera_fb_t* fb) {
       }
       // switch on light before capture frame if nightTime and useLamp selected
       // requires lampActivated = PIR
-      if (nightTime && intervalCnt == intervalMark - (saveFPS / 2)) setLamp(lampLevel);
       if (intervalCnt > intervalMark) {
         // save this frame to time lapse avi
-        if (!lampNight) setLamp(0);
         uint8_t hdrBuff[CHUNK_HDR];
         memcpy(hdrBuff, dcBuf, 4); 
         // align end of jpeg on 4 byte boundary for AVI
@@ -235,7 +232,6 @@ static void timeLapse(camera_fb_t* fb) {
         STORAGE.rename(TLTEMP, TLname);
         frameCntTL = intervalCnt = 0;
         LOG_DBG("Finished time lapse");
-        if (autoUpload) ftpFileOrFolder(TLname); // Upload it to remote ftp server if requested
       }
     }
   } else frameCntTL = intervalCnt = 0;
@@ -283,16 +279,6 @@ static void saveFrame(camera_fb_t* fb) {
   memcpy(iSDbuffer+highPoint, fb->buf + jpegSize - jpegRemain, jpegRemain);
   highPoint += jpegRemain;
   
-  if (smtpUse || tgramUse) {
-    if (frameCnt == alertFrame) {
-      keepFrame(fb);
-      if (smtpUse) {
-        char subjectMsg[50];
-        snprintf(subjectMsg, sizeof(subjectMsg) - 1, "from %s", hostName);
-        emailAlert("Motion Alert", subjectMsg);
-      }
-    }
-  }
   buildAviIdx(jpegSize); // save avi index for frame
   vidSize += jpegSize + CHUNK_HDR;
   frameCnt++; 
@@ -313,8 +299,6 @@ static bool closeAvi() {
   // write remaining frame content to SD
   aviFile.write(iSDbuffer, highPoint); 
   size_t readLen = 0;
-  // add wav file if exists
-  finishAudio(true);
   bool haveWav = haveWavFile();
   if (haveWav) {
     do {
@@ -347,7 +331,6 @@ static bool closeAvi() {
     STORAGE.rename(AVITEMP, aviFileName);
     LOG_DBG("AVI close time %lu ms", millis() - hTime); 
     cTime = millis() - cTime;
-    stopTelemetry(aviFileName);
     
     // AVI stats
     LOG_INF("******** AVI recording stats ********");
@@ -368,13 +351,8 @@ static bool closeAvi() {
     LOG_INF("Busy: %u%%", std::min(100 * (wTimeTot + fTimeTot + dTimeTot + oTime + cTime) / vidDuration, (uint32_t)100));
     checkMemory();
     LOG_INF("*************************************");
-    if (mqtt_active) {
-      sprintf(jsonBuff, "{\"RECORD\":\"OFF\", \"TIME\":\"%s\"}", esp_log_system_timestamp());
-      mqttPublish(jsonBuff);
-    }
-    if (autoUpload) ftpFileOrFolder(aviFileName); // Upload it to remote ftp server if requested
     checkFreeStorage();
-    if (tgramUse) tgramAlert(aviFileName, "");
+    // if (tgramUse) tgramAlert(aviFileName, "");
     return true; 
   } else {
     // delete too small files if exist
@@ -391,7 +369,6 @@ static boolean processFrame() {
   static bool captureMotion = false;
   bool res = true;
   uint32_t dTime = millis();
-  bool finishRecording = false;
 
   camera_fb_t* fb = esp_camera_fb_get();
   if (fb == NULL || !fb->len || fb->len > MAX_JPEG) return false;
@@ -412,13 +389,9 @@ static boolean processFrame() {
     if (dbgMotion) checkMotion(fb, false); // check each frame for debug
     else if (doMonitor(isCapturing)) captureMotion = checkMotion(fb, isCapturing); // check 1 in N frames
   }
-  if (pirUse) {
-    pirVal = getPIRval();
-    if (!pirVal && !isCapturing && !useMotion) checkMotion(fb, isCapturing); // to update light level
-  }
   
   // either active PIR, Motion, or force start button will start capture, neither active will stop capture
-  isCapturing = forceRecord | captureMotion | pirVal;
+  isCapturing = forceRecord | captureMotion;
   if (forceRecord || wasRecording || doRecording) {
     if (forceRecord && !wasRecording) wasRecording = true;
     else if (!forceRecord && wasRecording) wasRecording = false;
@@ -426,14 +399,9 @@ static boolean processFrame() {
     if (isCapturing && !wasCapturing) {
       // movement has occurred, start recording, send to whatsapp, and switch on lamp if night time
       if (WiFi.status() == WL_CONNECTED) sendMessage(String("Movement detected on your cctv! Check via http://" + WiFi.localIP().toString()));
-      if (lampAuto && nightTime) setLamp(lampLevel); // switch on lamp
       stopPlaying(); // terminate any playback
       stopPlayback = true; // stop any subsequent playback
-      LOG_ALT("Capture started by %s%s%s", captureMotion ? "Motion " : "", pirVal ? "PIR" : "",forceRecord ? "Button" : "");
-      if (mqtt_active) {
-        sprintf(jsonBuff, "{\"RECORD\":\"ON\", \"TIME\":\"%s\"}", esp_log_system_timestamp());
-        mqttPublish(jsonBuff);
-      }
+      LOG_ALT("Capture started by %s%s", captureMotion ? "Motion " : "", forceRecord ? "Button" : "");
       openAvi();
       wasCapturing = true;
     }
@@ -451,7 +419,6 @@ static boolean processFrame() {
     if (!isCapturing && wasCapturing) {
       // movement stopped
       finishRecording = true;
-      if (lampAuto) setLamp(0); // switch off lamp
     }
     wasCapturing = isCapturing;
   }
@@ -721,11 +688,11 @@ bool prepRecording() {
   startSDtasks();
   LOG_INF("To record new AVI, do one of:");
   LOG_INF("- press Start Recording on web page");
-  if (pirUse) {
-    String extStr = (pirPin >= EXTPIN) ? "IO extender" : "";
-    LOG_INF("- attach PIR to %s pin %u", extStr, pirPin);
-    LOG_INF("- raise %s pin %u to 3.3V", extStr, pirPin);
-  }
+  // if (pirUse) {
+  //   String extStr = (pirPin >= EXTPIN) ? "IO extender" : "";
+  //   LOG_INF("- attach PIR to %s pin %u", extStr, pirPin);
+  //   LOG_INF("- raise %s pin %u to 3.3V", extStr, pirPin);
+  // }
   if (useMotion) LOG_INF("- move in front of camera");
   logLine();
   debugMemory("prepRecording");
@@ -741,21 +708,12 @@ void endTasks() {
   for (int i = 0; i < numStreams; i++) deleteTask(sustainHandle[i]);
   deleteTask(captureHandle);
   deleteTask(playbackHandle);
-  deleteTask(DS18B20handle);
-  deleteTask(telemetryHandle);
-  deleteTask(servoHandle);
-  deleteTask(emailHandle);
-  deleteTask(ftpHandle);
-  deleteTask(uartClientHandle);
-  deleteTask(stickHandle);
-  deleteTask(telegramHandle);
 }
 
 void OTAprereq() {
   // stop timer isrs, and free up heap space, or crashes esp32
   doPlayback = forceRecord = false;
   controlFrameTimer(false);
-  stickTimer(false);
   stopPing();
   endTasks();
   esp_camera_deinit();
