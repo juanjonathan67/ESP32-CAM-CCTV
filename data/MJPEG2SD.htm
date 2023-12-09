@@ -1173,32 +1173,8 @@
                   <br>
                   <section id="buttons">
                     <button class="local" title="Download selected file from SD card" id="download" style="float:right" value="1">Download</button>
-                    <button class="local" title="Upload selected file/folder to FTP server" id="upload" style="float:left" value="1">FTP Upload</button>
                     <button class="local" title="Delete selected file/folder from SD card" id="delete" style="float:right" value="1">Delete</button>
                   </section>
-  <!--
-                  <div class="input-group" id="auth-group">
-                    <label for="useFtps">Use FTPS</label>
-                    <div class="switch">
-                      <input id="useFtps" type="checkbox">
-                      <label title="Use FTPS instead of FTP" class="slider" for="useFtps"></label>
-                    </div>
-                  </div>
-  -->
-                  <div class="input-group" id="autoUpload-group">
-                    <label for="autoUpload">Auto FTP upload</label>
-                    <div class="switch">
-                      <input id="autoUpload" type="checkbox">
-                      <label title="Automatic FTP upload on file creation" class="slider" for="autoUpload"></label>
-                    </div>
-                  </div>
-                  <div class="input-group" id="deleteAfter-group">
-                    <label for="deleteAfter">Auto SD Delete</label>
-                    <div class="switch">
-                      <input id="deleteAfter" type="checkbox">
-                      <label title="Automatic deletion on SD after FTP upload" class="slider" for="deleteAfter"></label>
-                    </div>
-                  </div>
                   <div class="input-group" id="whichExt-group">
                     <label for="whichExt">Download Type:</label>AVI&nbsp;
                     <div class="switch">
@@ -1287,75 +1263,6 @@
                     </select>
                   </div>
                   <br>                          
-                  <div class="subheader">Ftp settings</div>
-                  <div class="input-group" id="ftp-group">
-                    <label for="ftp_server">Ftp Server</label>
-                    <input id="ftp_server" name="ftp_server" length=32 placeholder="Ftp server name">
-                  </div>
-                  <div class="input-group" id="ftp-group">
-                    <label for="ftp_port">Ftp port</label>
-                    <input id="ftp_port" name="ftp_port" length=6 placeholder="Ftp port">
-                  </div>                          
-                  <div class="input-group" id="ftp-group">
-                    <label for="ftp_user">Ftp user name</label>
-                    <input id="ftp_user" name="ftp_user" length=32 placeholder="Ftp user name">
-                  </div>
-                  <div class="input-group" id="ftp-group">
-                    <label for="FTP_Pass">Ftp password</label>
-                    <input id="FTP_Pass" name="FTP_Pass" length=32 placeholder="Ftp password">
-                  </div>
-                  <div class="input-group" id="ftp-group">
-                    <label for="ftp_wd">Ftp root dir</label>
-                    <input id="ftp_wd" name="ftp_wd" length=64 placeholder="Ftp working directory">
-                  </div>                          
-                  <br>
-                  <div class="subheader">SMTP settings</div>
-                  <div class="input-group" id="smtp-group">
-                    <label for="smtp_server">SMTP server</label>
-                    <input id="smtp_server" name="smtp_server" length=32 placeholder="smtp server name">
-                  </div>
-                  <div class="input-group" id="smtp-group">
-                    <label for="smtp_port">SMTP port</label>
-                    <input id="smtp_port" name="smtp_port" length=6 placeholder="smtp port">
-                  </div>                          
-                  <div class="input-group" id="smtp-group">
-                    <label for="smtp_login">SMTP login</label>
-                    <input id="smtp_login" name="smtp_login" length=32 placeholder="smtp login email">
-                  </div>
-                  <div class="input-group" id="smtp-group">
-                    <label for="SMTP_Pass">SMTP password</label>
-                    <input id="SMTP_Pass" name="SMTP_Pass" length=32 placeholder="smtp password">
-                  </div>
-                  <div class="input-group" id="ftp-group">
-                    <label for="smtp_email">SMTP email</label>
-                    <input id="smtp_email" name="smtp_email" length=64 placeholder="smtp email to">
-                  </div>   
-                  <br>
-                  <div class="subheader">Authentication settings</div>
-                  <div class="input-group" id="auth-group">
-                      <label for="Auth_Name">Web login</label>
-                      <input id="Auth_Name" name="Auth_Name" length=32 placeholder="Authentication user name">
-                  </div>
-                  <div class="input-group" id="auth-group">
-                      <label for="Auth_Pass">Web password</label>
-                      <input id="Auth_Pass" name="Auth_Pass" length=32 placeholder="Authentication password">
-                  </div>
-  <!--
-                  <div class="input-group" id="auth-group">
-                    <label for="useHttps">Use HTTPS</label>
-                    <div class="switch">
-                      <input id="useHttps" type="checkbox">
-                      <label title="Use HTTPS to access app" class="slider" for="useHttps"></label>
-                    </div>
-                  </div>
-  -->
-                  <div class="input-group" id="auth-group">
-                    <label for="useSecure">Check Certs</label>
-                    <div class="switch">
-                      <input id="useSecure" type="checkbox">
-                      <label title="Check remote servers certificate" class="slider" for="useSecure"></label>
-                    </div>
-                  </div>
                 </div>
                 <br><br>
               </nav>

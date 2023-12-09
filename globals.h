@@ -127,9 +127,6 @@ void logPrint(const char *fmtStr, ...);
 void logSetup();
 void OTAprereq();
 bool parseJson(int rxSize);
-void prepPeripherals();
-void prepSMTP();
-bool prepTelegram();
 void prepTemperature();
 void prepUart();
 void reloadConfigs();
@@ -213,41 +210,9 @@ extern bool usePing; // set to false if problems related to this issue occur: ht
 extern bool wsLog;
 extern uint32_t sustainId;
 
-// ftp server
-extern char ftp_server[];
-extern char ftp_user[];
-extern uint16_t ftp_port;
-extern char FTP_Pass[];
-extern char ftp_wd[];
-extern bool autoUpload;
-extern bool deleteAfter;
-
-//  SMTP server
-extern char smtp_login[];
-extern char SMTP_Pass[];
-extern char smtp_email[];
-extern char smtp_server[];
-extern uint16_t smtp_port;
-extern bool smtpUse; // whether or not to use smtp
-extern int emailCount;
-
-// Mqtt broker
-extern bool mqtt_active;
-extern char mqtt_broker[];
-extern char mqtt_port[];
-extern char mqtt_user[];
-extern char mqtt_user_Pass[];
-extern char mqtt_topic_prefix[];  
-
 // control sending alerts 
 extern size_t alertBufferSize;
 extern byte* alertBuffer;
-
-// Telegram
-extern bool tgramUse;
-extern char tgramToken[];
-extern char tgramChatId[];
-extern char tgramHdr[];
 
 // certificates
 extern const char* git_rootCACertificate;

@@ -296,12 +296,10 @@ void currentStackUsage() {
   checkStackUse(ftpHandle, 3);
   checkStackUse(logHandle, 4);
   checkStackUse(micHandle, 5);
-  checkStackUse(mqttTaskHandle, 6);
   // 7: pingtask
   checkStackUse(playbackHandle, 8);
   checkStackUse(servoHandle, 9);
   checkStackUse(stickHandle, 10);
-  checkStackUse(telegramHandle, 11);
   checkStackUse(telemetryHandle, 12);
   checkStackUse(uartClientHandle, 13);
   // 14: http webserver
@@ -337,66 +335,18 @@ void doAppPing() {
 
 /************** telegram app specific **************/
 
-void tgramAlert(const char* subject, const char* message) {
-  // send motion alert to Telegram
-  const char* pos1 = strchr(subject + 1, '/'); // extract filename
-  const char* pos2 = strrchr(subject + 1, '.'); // remove extension
-  // make filename into command
-  if (pos1 != NULL && pos2 != NULL) {
-    strncpy(alertCaption, pos1, pos2 - pos1);
-    alertCaption[pos2 - pos1] = 0;
-    strcat(alertCaption, " from ");
-    strncat(alertCaption, hostName, sizeof(alertCaption) - strlen(alertCaption) - 1);
-    if (alertBufferSize) alertReady = true; // return image
-  } else LOG_ERR("Unable to send motion alert");
-}
 
-static bool downloadAvi(const char* userCmd) {
-  char* pos = strchr(userCmd, '_'); // if contains '_', assume filename
-  if (pos != NULL) {
-    // add folder name and avi extension to incoming file name
-    char fileName[FILE_NAME_LEN];
-    strncpy(fileName, userCmd, FILE_NAME_LEN - 1);
-    pos = strchr(fileName, '_');
-    memmove(pos, fileName, sizeof(fileName) - (pos - fileName));
-    strncat(fileName, ".avi", sizeof(fileName - 1) - strlen(fileName)); 
-    if (STORAGE.exists(fileName)) sendTgramFile(fileName, "image/jpeg", "");
-    else sendTgramMessage("AVI file not found: ", fileName, "");
-  }
-  return (bool)pos;
-}
-
-void appSpecificTelegramTask(void* p) {
-  // process Telegram interactions
-  snprintf(tgramHdr, FILE_NAME_LEN - 1, "%s\n Ver: " APP_VER "\n\n/snap", hostName); 
-  sendTgramMessage("Rebooted", "", "");
-  char userCmd[FILE_NAME_LEN];
-  doGetExtIP = true;
-  
-  while (true) {
-    // service requests from Telegram
-    if (getTgramUpdate(userCmd)) {     
-      if (!strcmp(userCmd, "/snap")) {
-        doKeepFrame = true;
-        delay(1000); // time to get frame
-        sprintf(userCmd, "/snap from %s", hostName);
-        sendTgramPhoto(alertBuffer, alertBufferSize, userCmd);
-      } else {
-        // initially assume it is an avi file download request
-        if (!downloadAvi(userCmd)) sendTgramMessage("Request not recognised: ", userCmd, "");
-      }
-    } else {
-      // send out any outgoing alerts from app
-      if (alertReady) {
-        alertReady = false;
-        sendTgramPhoto(alertBuffer, alertBufferSize, alertCaption);
-        alertBufferSize = 0;
-      } else if (doGetExtIP) {
-        // called here to save stack space
-        getExtIP();
-        doGetExtIP = false;
-      } else delay(2000); // avoid thrashing
-    }
-  }
-  vTaskDelete(NULL);
-}
+// static bool downloadAvi(const char* userCmd) {
+//   char* pos = strchr(userCmd, '_'); // if contains '_', assume filename
+//   if (pos != NULL) {
+//     // add folder name and avi extension to incoming file name
+//     char fileName[FILE_NAME_LEN];
+//     strncpy(fileName, userCmd, FILE_NAME_LEN - 1);
+//     pos = strchr(fileName, '_');
+//     memmove(pos, fileName, sizeof(fileName) - (pos - fileName));
+//     strncat(fileName, ".avi", sizeof(fileName - 1) - strlen(fileName)); 
+//     if (STORAGE.exists(fileName)) sendTgramFile(fileName, "image/jpeg", "");
+//     else sendTgramMessage("AVI file not found: ", fileName, "");
+//   }
+//   return (bool)pos;
+// }
