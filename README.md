@@ -44,6 +44,9 @@ The system undergoes rigorous testing to ensure reliable performance in various 
 
 ![Stats](./docs/stats.png)
 
+## User Guide
+![User Guide](./main/User%20Guide%20B11.png)
+
 ## Conclusion and Future Work
 - The ESP32-CAM CCTV project provides an accessible and versatile solution for home surveillance.
 - Future enhancements may include additional AI-based features, cloud integration, and improved user interfaces.
