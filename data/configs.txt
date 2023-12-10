@@ -47,6 +47,7 @@ denoise~4~98~~na
 special_effect~0~98~~na
 timeLapseOn~0~98~~na
 timezone~GMT0~98~~na
+threshold~00:00~98~~na
 vflip~0~98~~na
 wb_mode~0~98~~na
 wpc~1~98~~na

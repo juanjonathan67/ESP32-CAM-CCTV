@@ -89,6 +89,7 @@ bool checkDataFiles();
 bool checkFreeStorage();
 void checkMemory();
 uint32_t checkStackUse(TaskHandle_t thisTask, int taskIdx);
+bool checkTimeThreshold();
 void debugMemory(const char* caller);
 void dateFormat(char* inBuff, size_t inBuffLen, bool isFolder);
 void deleteFolderOrFile(const char* deleteThis);
@@ -143,6 +144,7 @@ void replaceChar(char* s, char c, char r);
 void reset_log();
 void resetWatchDog();
 bool retrieveConfigVal(const char* variable, char* value);
+void sendMessage(String message);
 void setFolderName(const char* fname, char* fileName);
 void setPeripheralResponse(const byte pinNum, const uint32_t responseData);
 void setupADC();
@@ -260,6 +262,7 @@ extern const char* cacert_pem; // app https server public certificate
 
 // app status
 extern char timezone[];
+extern char threshold[];
 extern char ntpServer[];
 extern uint8_t alarmHour;
 extern char* jsonBuff; 

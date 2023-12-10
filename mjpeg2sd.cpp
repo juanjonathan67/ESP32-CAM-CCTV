@@ -691,11 +691,6 @@ bool prepRecording() {
   startSDtasks();
   LOG_INF("To record new AVI, do one of:");
   LOG_INF("- press Start Recording on web page");
-  // if (pirUse) {
-  //   String extStr = (pirPin >= EXTPIN) ? "IO extender" : "";
-  //   LOG_INF("- attach PIR to %s pin %u", extStr, pirPin);
-  //   LOG_INF("- raise %s pin %u to 3.3V", extStr, pirPin);
-  // }
   if (useMotion) LOG_INF("- move in front of camera");
   logLine();
   debugMemory("prepRecording");

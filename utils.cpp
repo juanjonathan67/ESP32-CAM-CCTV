@@ -30,6 +30,7 @@ char ST_SSID[MAX_HOST_LEN]  = ""; //Default router ssid
 char ST_Pass[MAX_PWD_LEN] = ""; //Default router passd
 char WA_Num[MAX_WA_LEN] = ""; // WA number
 char API_Key[MAX_WA_LEN] = ""; // Bot API Key
+char threshold[MAX_WA_LEN] = ""; 
 
 // leave following blank for dhcp
 char ST_ip[MAX_IP_LEN]  = ""; // Static IP

@@ -182,6 +182,9 @@ static bool savePrefs(bool retain = true) {
   prefs.putString("ST_Pass", ST_Pass);
   prefs.putString("AP_Pass", AP_Pass); 
   prefs.putString("Auth_Pass", Auth_Pass); 
+  prefs.putString("WA_Num", WA_Num);
+  prefs.putString("API_Key", API_Key);
+  prefs.putString("threshold", threshold);
   prefs.end();
   LOG_INF("Saved preferences");
   return true;
@@ -201,6 +204,12 @@ static bool loadPrefs() {
 
   prefs.getString("ST_Pass", ST_Pass, MAX_PWD_LEN);
   updateConfigVect("ST_Pass", ST_Pass);
+  prefs.getString("WA_Num", WA_Num, MAX_WA_LEN);
+  updateConfigVect("WA_Num", WA_Num);
+  prefs.getString("API_Key", API_Key, MAX_WA_LEN);
+  updateConfigVect("API_Key", API_Key);
+  prefs.getString("threshold", threshold, MAX_WA_LEN);
+  updateConfigVect("threshold", threshold);
   prefs.getString("AP_Pass", AP_Pass, MAX_PWD_LEN);
   prefs.getString("Auth_Pass", Auth_Pass, MAX_PWD_LEN); 
   prefs.end();
@@ -239,6 +248,7 @@ void updateStatus(const char* variable, const char* _value) {
   else if (!strcmp(variable, "ST_Pass") && strchr(value, '*') == NULL) strncpy(ST_Pass, value, MAX_PWD_LEN-1);
   else if (!strcmp(variable, "WA_Num") && strncpy(WA_Num, value, MAX_WA_LEN-1));
   else if (!strcmp(variable, "API_Key") && strncpy(API_Key, value, MAX_WA_LEN-1));
+  else if (!strcmp(variable, "threshold") && strncpy(threshold, value, MAX_WA_LEN-1));
   else if (!strcmp(variable, "ST_ip")) strncpy(ST_ip, value, MAX_IP_LEN-1);
   else if (!strcmp(variable, "ST_gw")) strncpy(ST_gw, value, MAX_IP_LEN-1);
   else if (!strcmp(variable, "ST_sn")) strncpy(ST_sn, value, MAX_IP_LEN-1);
