@@ -131,13 +131,7 @@ void buildAviHdr(uint8_t FPS, uint8_t frameType, uint16_t frameCnt, bool isTL) {
   memcpy(aviHeader+0xA8, frameSizeData[frameType].frameWidth, 2);
   memcpy(aviHeader+0x44, frameSizeData[frameType].frameHeight, 2);
   memcpy(aviHeader+0xAC, frameSizeData[frameType].frameHeight, 2);
-  // // apply audio details to avi header
-  // memcpy(aviHeader+0xF8, &SAMPLE_RATE, 4);
-  // uint32_t bytesPerSec = SAMPLE_RATE * 2;
-  // memcpy(aviHeader+0x104, &bytesPerSec, 4); // suggested buffer size
-  // memcpy(aviHeader+0x11C, &SAMPLE_RATE, 4);
-  // memcpy(aviHeader+0x120, &bytesPerSec, 4); // bytes per sec
-
+  
   // reset state for next recording
   moviSize[isTL] = idxOffset[isTL] = idxPtr[isTL] = 0;
 }
@@ -190,14 +184,7 @@ bool haveWavFile(bool isTL) {
   // open it and get its size
   audSize = 0;
   wavFile = STORAGE.open(WAVTEMP, FILE_READ);
-  // if (wavFile) {
-  //   // add sound file index
-  //   audSize = wavFile.size() - WAV_HEADER_LEN;
-  //   buildAviIdx(audSize, false); 
-  //   // add sound file header    
-  //   wavFile.seek(WAV_HEADER_LEN, SeekSet); // skip over header
-  //   haveSoundFile = true;
-  // } 
+  
   return haveSoundFile;
 }
 
