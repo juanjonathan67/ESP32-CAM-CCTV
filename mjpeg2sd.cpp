@@ -394,12 +394,26 @@ static boolean processFrame() {
     
     if (isCapturing && !wasCapturing) {
       // movement has occurred, start recording, send to whatsapp, and switch on lamp if night time
-      if (WiFi.status() == WL_CONNECTED){
+      if ((WiFi.status() == WL_CONNECTED) && captureMotion){
         time_t currEpoch = getEpoch();
         char timeFormat[20];
-        strftime(timeFormat, sizeof(timeFormat), "%d/%m/%Y %H:%M:%S", localtime(&currEpoch));
-        String message = String("Movement detected on your cctv at " + String(timeFormat) + " , Check via http://" + WiFi.localIP().toString());
-        sendMessage(message);
+        strftime(timeFormat, sizeof(timeFormat), "%H:%M", localtime(&currEpoch));
+        int parsedHours[2], parsedMinutes[2];
+        sscanf(timeFormat, "%d:%d", &parsedHours[0], &parsedMinutes[0]);
+        sscanf(threshold, "%d:%d", &parsedHours[1], &parsedMinutes[1]);
+        if((parsedHours[1] >= 0 && parsedHours[1] < 24) && (parsedMinutes[1] >= 0 && parsedMinutes[1] < 60)){
+          if(parsedHours[0] > parsedHours[1]){
+            strftime(timeFormat, sizeof(timeFormat), "%d/%m/%Y %H:%M:%S", localtime(&currEpoch));
+            String message = String("Movement detected on your cctv at " + String(timeFormat) + " , Check via http://" + WiFi.localIP().toString());
+            sendMessage(message);
+          }else if(parsedHours[0] == parsedHours[1]){
+            if(parsedMinutes[0] >= parsedMinutes[1]){
+              strftime(timeFormat, sizeof(timeFormat), "%d/%m/%Y %H:%M:%S", localtime(&currEpoch));
+              String message = String("Movement detected on your cctv at " + String(timeFormat) + " , Check via http://" + WiFi.localIP().toString());
+              sendMessage(message);
+            }
+          }
+        }
       }
        
       stopPlaying(); // terminate any playback

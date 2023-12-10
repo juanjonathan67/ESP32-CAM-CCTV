@@ -89,7 +89,6 @@ bool checkDataFiles();
 bool checkFreeStorage();
 void checkMemory();
 uint32_t checkStackUse(TaskHandle_t thisTask, int taskIdx);
-bool checkTimeThreshold();
 void debugMemory(const char* caller);
 void dateFormat(char* inBuff, size_t inBuffLen, bool isFolder);
 void deleteFolderOrFile(const char* deleteThis);
