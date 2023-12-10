@@ -32,6 +32,7 @@ The web-based interface provides a user-friendly experience for streaming, recor
 Motion detection features automatically initiate recording and send alerts via WhatsApp, with configurable sensitivity settings.
 
 ![Motion](./docs/motion.png)
+
 ![WA](./docs/WA.png)
 
 The ESP32-CAM can browse the SD Card file system, enabling users to view, playback, and download recorded footage.
