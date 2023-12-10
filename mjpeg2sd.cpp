@@ -8,10 +8,6 @@
 
 #include "appGlobals.h"
 
-// whatsapp credentials
-String phoneNumber = "6287883022558";
-String apiKey = "1119595";
-
 // user parameters set from web
 bool useMotion  = true; // whether to use camera for motion detection (with motionDetect.cpp)
 bool dbgMotion  = false;
@@ -402,7 +398,7 @@ static boolean processFrame() {
         time_t currEpoch = getEpoch();
         char timeFormat[20];
         strftime(timeFormat, sizeof(timeFormat), "%d/%m/%Y %H:%M:%S", localtime(&currEpoch));
-        String message = String("Movement detected on your cctv at " + timeFormat + " , Check via http://" + WiFi.localIP().toString());
+        String message = String("Movement detected on your cctv at " + String(timeFormat) + " , Check via http://" + WiFi.localIP().toString());
         sendMessage(message);
       }
        

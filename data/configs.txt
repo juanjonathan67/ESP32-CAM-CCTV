@@ -73,8 +73,6 @@ wifiTimeoutSecs~30~0~N~WiFi connect timeout (secs)
 ntpServer~pool.ntp.org~0~T~NTP Server address
 alarmHour~1~2~N~Hour of day for daily actions
 useUART0~0~99~C~na
-uartTxdPin~~3~N~UART1 TX pin
-uartRxdPin~~3~N~UART1 RX pin
 refreshVal~5~2~N~Web page refresh rate (secs)
 responseTimeoutSecs~10~2~N~Server response timeout (secs)
 tlSecsBetweenFrames~600~1~N~Timelapse interval (secs)
@@ -96,33 +94,6 @@ smtpMaxEmails~10~2~N~Max daily alerts
 sdMinCardFreeSpace~100~2~N~Min free MBytes on SD before action
 sdFreeSpaceMode~1~2~S:No Check:Delete oldest:Ftp then delete~Action mode on SD min free
 formatIfMountFailed~0~2~C~Format file system on failure
-useIOextender~0~3~C~Use another ESP as IO Extender
-pirUse~0~3~C~Use PIR for detection
-lampUse~0~3~C~Use lamp
-lampType~0~3~S:Manual:PIR~How lamp activated
-servoUse~0~3~C~Use servos
-micUse~0~3~C~Use microphone
-pirPin~~3~N~Pin used for PIR
-lampPin~4~3~N~Pin used for Lamp
-servoPanPin~~3~N~Pin used for Pan Servo
-servoTiltPin~~3~N~Pin used for Tilt Servo
-ds18b20Pin~~3~N~Pin used for DS18B20 temperature sensor
-micSckPin~~3~N~Microphone I2S SCK pin
-micSWsPin~~3~N~Microphone I2S WS / PDM CLK pin
-micSdPin~~3~N~Microphone I2S SD / PDM DAT pin
-servoDelay~0~3~N~Delay between each 1 degree change (ms)
-servoMinAngle~0~3~N~Set min angle for servo model
-servoMaxAngle~180~3~N~Set max angle for servo model
-servoMinPulseWidth~544~3~N~Set min pulse width for servo model (usecs)
-servoMaxPulseWidth~2400~3~N~Set max pulse width for servo model (usecs)
-servoCenter~90~3~N~Angle at which servo centered
-voltDivider~2~3~N~Voltage divider resistor ratio
-voltLow~3~3~N~Warning level for low voltage
-voltInterval~5~3~N~Voltage check interval (mins)
-voltPin~~3~N~ADC Pin used for battery voltage
-voltUse~0~3~C~Use Voltage check
-wakePin~~3~N~Pin used for to wake app from sleep
-wakeUse~0~3~C~Deep sleep app during night
 mqtt_active~0~2~C~Mqtt enabled
 mqtt_broker~~2~T~Mqtt server ip to connect
 mqtt_port~1883~2~N~Mqtt server port
@@ -130,9 +101,6 @@ mqtt_user~~2~T~Mqtt user name
 mqtt_user_Pass~~2~T~Mqtt user password
 mqtt_topic_prefix~homeassistant/sensor/~2~T~Mqtt topic path prefix
 usePing~1~0~C~Use ping
-teleUse~0~3~C~Use telemetry recording
-teleInterval~1~3~N~Telemetry collection interval (secs)
-RCactive~0~3~C~Enable remote control
 servoSteerPin~~4~N~Pin used for steering servo
 motorRevPin~~4~N~Pin used for motor reverse
 motorFwdPin~~4~N~Pin used for motor forward
